@@ -1,0 +1,20 @@
+namespace: ${customer}-${environment}
+cfngin_bucket: ${cfngin_bucket_name}
+
+sys_path: ./
+
+stacks:
+  img-mgr:
+    template_path: templates/imgmgr-cfn-test.json  # also supports json templates
+    variables:
+      EnvironmentName: ${environment}
+      CustomerName: ${customer}
+      ApplicationName: img-mgr
+      SshKey: ${ssh_key}
+      ImageId: ami-087c17d1fe0178315
+      VpcId: ${xref ${customer}-common-vpc::VPC}
+      LoadBalancerSubnets: ${xref ${customer}-common-vpc::PublicSubnets}
+      Subnets: ${xref ${customer}-common-vpc::PrivateSubnetsWebTier}
+      AvailabilityZones: ${region}a,${region}b
+      AppServerMaxCount: 4
+      AppServerMinCount: 2
